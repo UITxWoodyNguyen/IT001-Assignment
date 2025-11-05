@@ -1,4 +1,4 @@
-# HERE IS ALL ABOUT IT.001
+# HERE IS MY IT.001 ASSIGNMENT
 ###### Author: Woody Nguyễn (aka Thành Nguyễn) - from University of Information Technology - VNUHCM
 
 ## Anything in this repositories?
