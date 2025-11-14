@@ -7,20 +7,21 @@ using namespace std;
 
 #define JUDGE(name) if (fopen(name".inp", "r")) { freopen(name".inp","r",stdin); freopen(name".out","w",stdout); }
 const int MAXN = 1e5+36;
+
+struct Date {
+    int day, month, year;
+};
+
 struct student {
     int student_id;
     char name[55];
-    struct {
-        int day;
-        int month;
-        int year;
-    } date_of_birth;
+    Date date_of_birth;
     char first_letter;
 
     bool cmp (const student &other) const { return student_id < other.student_id; }
 };
 student info[MAXN];
-int numStudents;
+int numStudents; 
 
 bool is_number(const char *s) {
     if (!s || !*s) return false;
@@ -61,16 +62,22 @@ void input () {
     }
 }
 
-bool editData (int student_id, int new_day, int new_month, int new_year) {
-    for (int i = 0; i < numStudents; i++) {
-        if (info[i].student_id == student_id) {
-            info[i].date_of_birth.day = new_day;
-            info[i].date_of_birth.month = new_month;
-            info[i].date_of_birth.year = new_year;
-            return 1;
-        }
+int FindStudentById (int index) {
+    int pos = -1;
+    for(int i=0; i < numStudents; i++) if (info[i].student_id == index) {
+        pos = i;
+        break;
     }
-    return 0;
+    return pos;
+}
+
+bool editData (int student_id, Date new_day) {
+    if (FindStudentById(student_id)==-1) return 0;
+    int pos = FindStudentById(student_id);
+    info[pos].date_of_birth.day = new_day.day;
+    info[pos].date_of_birth.month = new_day.month;
+    info[pos].date_of_birth.year = new_day.year;
+    return 1;
 }
 
 int findtheOldestStudent (student info[], int numStudents) {
@@ -107,6 +114,7 @@ void FindStudentsByInitial (student info[], char initial) {
 }
 
 void printStudentData(int i) {
+    cout << "- ";
     cout << info[i].student_id << " " << info[i].name << " ";
     printDayOfBirth(info[i]);
 }
@@ -123,9 +131,10 @@ int main() {
     nl;
     
     /* (b) Sua ngay sinh cua sinh vien co ma X */
-    int X, new_day, new_month, new_year;
-    cin >> X >> new_day >> new_month >> new_year;
-    editData(X, new_day, new_month, new_year);
+    int X;
+    Date new_day;
+    cin >> X >> new_day.day >> new_day.month >> new_day.year;
+    editData(X, new_day);
     cout << "Danh sach cac sinh vien sau khi chinh sua:" << endl;
     for(int i=0; i < numStudents; i++) printStudentData(i);
     nl;
